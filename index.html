@@ -1,70 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Quiz</title>
-  <style>
-    /* CSS for styling */
-    body {
-      font-family: Arial, sans-serif;
-    }
-    .quiz-container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-    .question {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .options {
-      margin-left: 20px;
-    }
-    button {
-      margin-top: 10px;
-      padding: 8px 20px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizz Interativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f3f3f3;
+        }
+        
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        #question-container {
+            margin-bottom: 20px;
+        }
+        
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <div class="question">What is the capital of France?</div>
-    <div class="options">
-      <label><input type="radio" name="question1" value="paris"> Paris</label><br>
-      <label><input type="radio" name="question1" value="london"> London</label><br>
-      <label><input type="radio" name="question1" value="berlin"> Berlin</label><br>
-      <label><input type="radio" name="question1" value="rome"> Rome</label>
+    <div class="container">
+        <h1>Quizz Interativo</h1>
+        <div id="question-container"></div>
+        <button id="submit-btn">Submit</button>
     </div>
-    <button onclick="checkAnswer()">Submit</button>
-  </div>
 
-  <script>
-    function checkAnswer() {
-      // Get the selected option
-      var selectedOption = document.querySelector('input[name="question1"]:checked');
-      if (selectedOption) {
-        // Check if the selected option is correct
-        if (selectedOption.value === "paris") {
-          alert("Correct!");
-        } else {
-          alert("Incorrect. The correct answer is Paris.");
+    <script>
+        const questions = [
+            {
+                question: "Qual é a capital do Brasil?",
+                answers: ["Rio de Janeiro", "Brasília", "São Paulo", "Belo Horizonte"],
+                correctAnswer: "Brasília"
+            },
+            {
+                question: "Qual é o maior planeta do Sistema Solar?",
+                answers: ["Júpiter", "Saturno", "Terra", "Marte"],
+                correctAnswer: "Júpiter"
+            },
+            {
+                question: "Quem escreveu 'Dom Quixote'?",
+                answers: ["Miguel de Cervantes", "William Shakespeare", "Friedrich Nietzsche", "Victor Hugo"],
+                correctAnswer: "Miguel de Cervantes"
+            }
+        ];
+        
+        const questionContainer = document.getElementById('question-container');
+        const submitButton = document.getElementById('submit-btn');
+        
+        // Function to display questions
+        function displayQuestions() {
+            questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('question');
+                questionElement.innerHTML = `
+                    <h3>${index + 1}. ${question.question}</h3>
+                    <ul>
+                        ${question.answers.map(answer => `<li><input type="radio" name="question${index}" value="${answer}">${answer}</li>`).join('')}
+                    </ul>
+                `;
+                questionContainer.appendChild(questionElement);
+            });
         }
-      } else {
-        alert("Please select an option.");
-      }
-    }
-  </script>
+        
+        // Function to check answers
+        function checkAnswers() {
+            let score = 0;
+            questions.forEach((question, index) => {
+                const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === question.correctAnswer) {
+                        score++;
+                    }
+                }
+            });
+            alert(`Você acertou ${score} de ${questions.length} perguntas!`);
+        }
+        
+        // Display questions when the page loads
+        displayQuestions();
+        
+        // Event listener for submit button
+        submitButton.addEventListener('click', checkAnswers);
+    </script>
 </body>
 </html>
