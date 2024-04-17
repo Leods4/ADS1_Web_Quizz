@@ -51,7 +51,7 @@
     <div class="container">
         <h1>Quizz Interativo</h1>
         <div id="question-container"></div>
-        <button id="submit-btn">Submit</button>
+        <button id="submit-btn">Checar Respostas</button>
     </div>
 
     <script>
@@ -76,7 +76,6 @@
         const questionContainer = document.getElementById('question-container');
         const submitButton = document.getElementById('submit-btn');
         
-        // Function to display questions
         function displayQuestions() {
             questions.forEach((question, index) => {
                 const questionElement = document.createElement('div');
@@ -91,7 +90,6 @@
             });
         }
         
-        // Function to check answers
         function checkAnswers() {
             let score = 0;
             questions.forEach((question, index) => {
@@ -105,10 +103,8 @@
             alert(`Você acertou ${score} de ${questions.length} perguntas!`);
         }
         
-        // Display questions when the page loads
         displayQuestions();
         
-        // Event listener for submit button
         submitButton.addEventListener('click', checkAnswers);
     </script>
 </body>
